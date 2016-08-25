@@ -4,7 +4,7 @@ set -v
 
 export DCM4CHEE_VERSION=2.17.3
 
-export ARR_VERSION=3.0.11
+export ARR_VERSION=3.0.12
 
 
 dcm4chee_fullname(){
