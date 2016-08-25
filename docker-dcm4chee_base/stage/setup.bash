@@ -2,7 +2,7 @@
 set -v
 
 
-export DCM4CHEE_VERSION=2.18.3
+export DCM4CHEE_VERSION=2.17.3
 
 export ARR_VERSION=3.0.11
 
