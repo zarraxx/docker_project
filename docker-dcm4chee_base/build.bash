@@ -1,5 +1,5 @@
 #!/bin/bash
 set -v
-
-docker rmi dcm4chee || true
-docker build --rm=true -t dcm4chee_base .
+image=dcm4chee_base
+docker rmi $image || true
+docker build --rm=true -t $image .

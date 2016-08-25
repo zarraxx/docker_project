@@ -1,21 +1,44 @@
 #!/bin/sh
 set -v
 
+
 export DCM4CHEE_VERSION=2.18.3
-export DCM4CHEE_ARCHIVE=dcm4chee-$DCM4CHEE_VERSION-mysql.zip
 
 export ARR_VERSION=3.0.11
-export ARR_ARCHIVE=dcm4chee-arr-$ARR_VERSION-mysql.zip
+
+
+dcm4chee_fullname(){
+    export DCM4CHEE_ARCHIVE=dcm4chee-$DCM4CHEE_VERSION-$1
+}
+
+arr_fullname(){
+    export ARR_ARCHIVE=dcm4chee-arr-$ARR_VERSION-$1
+}
+
+
+download_dcm4chee(){
+    dcm4chee_fullname $1
+    export DCM4CHEE_URL=http://downloads.sourceforge.net/project/dcm4che/dcm4chee/$DCM4CHEE_VERSION/$DCM4CHEE_ARCHIVE.zip
+    echo $DCM4CHEE_URL
+    curl -LG $DCM4CHEE_URL  > /stage/$DCM4CHEE_ARCHIVE.zip
+}
+
+download_arr(){
+    arr_fullname $1
+    export ARR_URL=http://downloads.sourceforge.net/project/dcm4che/dcm4chee-arr/$ARR_VERSION/$ARR_ARCHIVE.zip
+    echo $ARR_URL
+    curl -LG $ARR_URL  > /stage/$ARR_ARCHIVE.zip
+}
 
 export JBOSS_URL=http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-4.2.3.GA/jboss-4.2.3.GA-jdk6.zip
-export DCM4CHEE_URL=http://downloads.sourceforge.net/project/dcm4che/dcm4chee/$DCM4CHEE_VERSION/$DCM4CHEE_ARCHIVE
-export ARR_URL=http://downloads.sourceforge.net/project/dcm4che/dcm4chee-arr/$ARR_VERSION/$ARR_ARCHIVE
+#export DCM4CHEE_URL=http://downloads.sourceforge.net/project/dcm4che/dcm4chee/$DCM4CHEE_VERSION/$DCM4CHEE_ARCHIVE
+#export ARR_URL=http://downloads.sourceforge.net/project/dcm4che/dcm4chee-arr/$ARR_VERSION/$ARR_ARCHIVE
 
 apt-get update
 apt-get upgrade -y
 
 # Install dependencies
-apt-get install -y curl zip mysql-client  openjdk-8-jdk
+apt-get install -y curl zip mysql-client postgresql-client  openjdk-8-jdk
 
 # Make the dcm4chee home dir
 DCM4CHEE_HOME=/var/local/dcm4chee
@@ -23,29 +46,36 @@ mkdir -p $DCM4CHEE_HOME
 cd $DCM4CHEE_HOME
 
 # Download the binary package for DCM4CHEE
-echo $DCM4CHEE_URL
-echo $DCM4CHEE_ARCHIVE
+#echo $DCM4CHEE_URL
+#echo $DCM4CHEE_ARCHIVE
 
-curl -LG $DCM4CHEE_URL  > /stage/$DCM4CHEE_ARCHIVE
-unzip -q /stage/$DCM4CHEE_ARCHIVE
-DCM_DIR=$DCM4CHEE_HOME/dcm4chee-$DCM4CHEE_VERSION-mysql
+download_dcm4chee mysql
+download_dcm4chee psql
+
+download_arr mysql
+download_arr psql
+
+#curl -LG $DCM4CHEE_URL  > /stage/$DCM4CHEE_ARCHIVE
+#unzip -q /stage/$DCM4CHEE_ARCHIVE
+#DCM_DIR=$DCM4CHEE_HOME/dcm4chee-$DCM4CHEE_VERSION-mysql
+
+# Download the Audit Record Repository (ARR) package
+#curl -LG $ARR_URL  > /stage/$ARR_ARCHIVE
+#unzip -q /stage/$ARR_ARCHIVE
+#ARR_DIR=$DCM4CHEE_HOME/dcm4chee-arr-$ARR_VERSION-mysql
 
 # Download the binary package for JBoss
 echo $JBOSS_URL
 curl -LG $JBOSS_URL  > /stage/jboss-4.2.3.GA-jdk6.zip
-unzip -q /stage/jboss-4.2.3.GA-jdk6.zip
-JBOSS_DIR=$DCM4CHEE_HOME/jboss-4.2.3.GA
+#unzip -q /stage/jboss-4.2.3.GA-jdk6.zip
+#JBOSS_DIR=$DCM4CHEE_HOME/jboss-4.2.3.GA
 
-# Download the Audit Record Repository (ARR) package
-curl -LG $ARR_URL  > /stage/$ARR_ARCHIVE
-unzip -q /stage/$ARR_ARCHIVE
-ARR_DIR=$DCM4CHEE_HOME/dcm4chee-arr-$ARR_VERSION-mysql
 
 # Copy files from JBoss to dcm4chee
-$DCM_DIR/bin/install_jboss.sh jboss-4.2.3.GA > /dev/null
+#$DCM_DIR/bin/install_jboss.sh jboss-4.2.3.GA > /dev/null
 
 # Copy files from the Audit Record Repository (ARR) to dcm4chee
-$DCM_DIR/bin/install_arr.sh dcm4chee-arr-$DCM4CHEE_VERSION-mysql > /dev/null
+#$DCM_DIR/bin/install_arr.sh dcm4chee-arr-$DCM4CHEE_VERSION-mysql > /dev/null
 
 # Install and set up MySQL
 #mysql_install_db
