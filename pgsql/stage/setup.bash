@@ -15,3 +15,4 @@ cd tds_fdw-1.0.7
 make USE_PGXS=1
 make USE_PGXS=1 install
 cd -
+cp /stage/locales.conf /etc/freetds
