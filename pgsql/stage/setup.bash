@@ -2,9 +2,9 @@
 
 apt-get update -y
 apt-get upgrade -y
-apt-get install -y build-essential
+apt-get install -y vim build-essential
 apt-get install -y unixodbc-dev libmyodbc  odbc-postgresql
-apt-get install -y libsybdb5 tdsodbc  freetds-dev freetds-common
+apt-get install -y libsybdb5 tdsodbc  freetds-bin freetds-dev freetds-common
 apt-get install -y postgresql-server-dev-9.5
 apt-get install -y postgresql-9.5-python-multicorn
 apt-get install -y python-pip python-dev
