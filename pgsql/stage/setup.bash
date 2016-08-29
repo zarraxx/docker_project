@@ -9,6 +9,7 @@ apt-get install -y postgresql-server-dev-9.5
 apt-get install -y postgresql-9.5-python-multicorn
 apt-get install -y python-pip python-dev
 
+pip install pymssql
 pip install python-tds
 pip install bitarray
 
