@@ -6,16 +6,14 @@ apt-get install -y vim build-essential
 apt-get install -y unixodbc-dev libmyodbc  odbc-postgresql
 apt-get install -y libsybdb5 tdsodbc  freetds-bin freetds-dev freetds-common
 apt-get install -y postgresql-server-dev-9.5
-apt-get install -y postgresql-9.5-python-multicorn
-apt-get install -y python-pip python-dev
+apt-get install -y postgresql-plpython3-9.5 postgresql-9.5-python3-multicorn
+apt-get install -y python3-pip python3-dev
 
-pip install pymssql
-pip install python-tds
-pip install bitarray
+pip3 install pymssql
 
-pip install PyMySQL
+pip3 install PyMySQL
 
-pip install pg8000
+pip3 install pg8000
 
 
 
