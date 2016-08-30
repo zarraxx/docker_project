@@ -10,6 +10,8 @@ apt-get install -y postgresql-plpython-9.5 postgresql-plpython3-9.5 postgresql-9
 apt-get install -y python3-pip python3-dev python-pip python-dev
 
 pip3 install pymssql
+pip3 install python-tds
+pip3 install bitarray
 
 pip3 install PyMySQL
 
@@ -17,6 +19,8 @@ pip3 install pg8000
 
 
 pip install pymssql
+pip install python-tds
+pip install bitarray
 
 pip install PyMySQL
 
