@@ -55,7 +55,8 @@ RUN mkdir -p /temp && cd /temp \
 # configuration ocserv
 RUN mkdir -p /temp && cd /temp \
     && wget http://www.infradead.org/ocserv/download.html \
-    && export ocserv_version=$(cat download.html | grep -o '[0-9]*\.[0-9]*\.[0-9]*') \
+    && export ocserv_version=0.11.8  \
+#$(cat download.html | grep -o '[0-9]*\.[0-9]*\.[0-9]*') \
     && wget ftp://ftp.infradead.org/pub/ocserv/ocserv-$ocserv_version.tar.xz \
     && tar xvf ocserv-$ocserv_version.tar.xz \
     && cd ocserv-$ocserv_version \
