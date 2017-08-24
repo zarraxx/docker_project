@@ -9,7 +9,7 @@ else
   mkdir -p /tmp/git
   cd /tmp/git
   git clone $GIT_URL CONF
-  sh CONF/run.sh
+  sh CONF$LOCAL/run.sh
 fi
 
 
