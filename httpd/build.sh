@@ -1,5 +1,5 @@
 #!/bin/bash
 set -v
-image=tomcat_dev
+image=httpd
 docker rmi $image || true
 docker build --rm=true -t $image .
