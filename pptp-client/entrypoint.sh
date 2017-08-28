@@ -1,21 +1,28 @@
 #!/bin/bash
 
-if [ ! -n "$GIT_URL" ]; then
-  echo "GIT_URL not set"
-else
-  echo "Clone from $GIT_URL"
-  PREV=`pwd`
-  mkdir -p /tmp/git
-  rm -rf /tmp/git
-  mkdir -p /tmp/git
-  cd /tmp/git
-  git clone $GIT_URL CONF
-  cd CONF$CONF_DIR
-  sh run.sh
-  cd $PREV
+#!/bin/sh
 
+cat > /etc/ppp/peers/${TUNNEL} <<_EOF_
+pty "pptp ${SERVER} --nolaunchpppd"
+name "${USERNAME}"
+password "${PASSWORD}"
+remotename PPTP
+require-mppe-128
+file /etc/ppp/options.pptp
+ipparam "${TUNNEL}"
+_EOF_
 
-fi
+cat > /etc/ppp/ip-up <<"_EOF_"
+#!/bin/sh
+#ip route add 0.0.0.0/1 dev $1
+#ip route add 128.0.0.0/1 dev $1
+_EOF_
+
+cat > /etc/ppp/ip-down <<"_EOF_"
+#!/bin/sh
+#ip route del 0.0.0.0/1 dev $1
+#ip route del 128.0.0.0/1 dev $1
+_EOF_
 
 
 exec "$@"

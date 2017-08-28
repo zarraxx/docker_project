@@ -1,4 +1,4 @@
-FROM gzm55/vpn-client
+FROM vimagick/pptp
 
 
 ADD *.sh /usr/local/bin/
