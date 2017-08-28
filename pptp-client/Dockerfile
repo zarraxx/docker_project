@@ -9,5 +9,4 @@ RUN chmod +x /usr/local/bin/*
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-EXPOSE 80
 CMD ["start.sh"]
