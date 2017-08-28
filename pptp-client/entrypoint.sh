@@ -13,6 +13,8 @@ else
   cd CONF$CONF_DIR
   sh run.sh
   cd $PREV
+
+
 fi
 
 
