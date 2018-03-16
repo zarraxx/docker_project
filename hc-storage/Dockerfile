@@ -15,4 +15,4 @@ RUN /var/ext/upload/docker_build.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-CMD ["catalina.sh", "run"]
+CMD ["java", "-jar" ,"/opt/storage/storage-frontend.war"]
