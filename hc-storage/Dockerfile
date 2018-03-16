@@ -1,6 +1,6 @@
-FROM zarra/tomcat:latest
+FROM openjdk:8-jdk
 
-RUN apt-get update && apt-get install maven git openjdk-8-jdk  --no-install-recommends  -y && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && apt-get install maven git openjdk-8-jdk  --no-install-recommends  -y && rm -rf /var/lib/apt/lists/*
 
 RUN  rm /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -9,10 +9,9 @@ RUN chmod +x /usr/local/bin/*
 
 RUN mkdir -p /var/ext/upload
 
-ADD docker_build.sh /var/ext/upload/docker_build.sh
+ADD storage-frontend.war /var/ext/upload/storage-frontend.war
 
-RUN /var/ext/upload/docker_build.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-CMD ["java", "-jar" ,"/opt/storage/storage-frontend.war"]
+CMD ["java", "-jar" ,"/var/ext/upload/storage-frontend.war"]
