@@ -1,3 +1,9 @@
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
+
 FROM openjdk:8-jdk-buster
 
 ENV CATALINA_HOME /usr/local/tomcat
@@ -9,21 +15,23 @@ WORKDIR $CATALINA_HOME
 ENV TOMCAT_NATIVE_LIBDIR $CATALINA_HOME/native-jni-lib
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 
-# see https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/KEYS
-# see also "update.sh" (https://github.com/docker-library/tomcat/blob/master/update.sh)
-ENV GPG_KEYS 05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42 47309207D818FFD8DCD3F83F1931D684307A10A5 541FBE7D8F78B25E055DDEE13C370389288584E7 5C3C5F3E314C866292F359A8F3AD5C94A67F707E 61B832AC2F1C5A90F0F9B00A1C506407564C17A3 765908099ACF92702C7D949BFA0C35EA8AA299F1 79F7026C690BAA50B92CD8B66A3AD3F4F22C4FED 8B46CA49EF4837B8C7F292DAA54AD08EA7A0233C 9BA44C2621385CB966EBA586F72C284D731FABEE A27677289986DB50844682F8ACB77FC2E86E29AC A9C5DF4D22E99998D9875A5110C01C5A2F6059E7 DCFD35E0BF8CA7344752DE8B6FB21E8933C60243 F3A04C595DB5B6A5F1ECA43E3B7BBB100D811BBE F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23
+# see https://www.apache.org/dist/tomcat/tomcat-8/KEYS
+# see also "versions.sh" (https://github.com/docker-library/tomcat/blob/master/versions.sh)
+ENV GPG_KEYS 05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42 47309207D818FFD8DCD3F83F1931D684307A10A5 541FBE7D8F78B25E055DDEE13C370389288584E7 5C3C5F3E314C866292F359A8F3AD5C94A67F707E 765908099ACF92702C7D949BFA0C35EA8AA299F1 79F7026C690BAA50B92CD8B66A3AD3F4F22C4FED 9BA44C2621385CB966EBA586F72C284D731FABEE A27677289986DB50844682F8ACB77FC2E86E29AC A9C5DF4D22E99998D9875A5110C01C5A2F6059E7 DCFD35E0BF8CA7344752DE8B6FB21E8933C60243 F3A04C595DB5B6A5F1ECA43E3B7BBB100D811BBE F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23
 
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.5.82
-ENV TOMCAT_SHA512 3e0a0a808fb78493930ce8832731eba4ab3cc440387c3b5226ff6e4ac2faf5fd70eff1560d840d34f14a8acfd7e60fc8b7f638f3dbe0c0ed4569dc4271a9c3f2
+ENV TOMCAT_VERSION 8.5.81
+ENV TOMCAT_SHA512 729387275cce4a0900289722f6c70ebcf7aee924af671b110b8ea8577fd6d045d47f17d526c8db5fd41c8590102e7f5100e95e89f7fd511b941565812ecbed35
 
 RUN set -eux; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
-		gnupg dirmngr \
-		wget ca-certificates \
+		ca-certificates \
+		curl \
+		dirmngr \
+		gnupg \
 	; \
 	\
 	ddist() { \
@@ -36,13 +44,14 @@ RUN set -eux; \
 # https://issues.apache.org/jira/browse/INFRA-8753?focusedCommentId=14735394#comment-14735394
 			"https://www.apache.org/dyn/closer.cgi?action=download&filename=$distFile" \
 # if the version is outdated (or we're grabbing the .asc file), we might have to pull from the dist/archive :/
+			"https://downloads.apache.org/$distFile" \
 			"https://www-us.apache.org/dist/$distFile" \
 			"https://www.apache.org/dist/$distFile" \
 			"https://archive.apache.org/dist/$distFile" \
 # if all else fails, let's try Maven (https://www.mail-archive.com/users@tomcat.apache.org/msg134940.html; https://mvnrepository.com/artifact/org.apache.tomcat/tomcat; https://repo1.maven.org/maven2/org/apache/tomcat/tomcat/)
 			${mvnFile:+"https://repo1.maven.org/maven2/org/apache/tomcat/tomcat/$mvnFile"} \
 		; do \
-			if wget -O "$f" "$distUrl" --progress=dot:giga && [ -s "$f" ]; then \
+			if curl -fL -o "$f" "$distUrl" && [ -s "$f" ]; then \
 				success=1; \
 				break; \
 			fi; \
@@ -89,8 +98,10 @@ RUN set -eux; \
 			--prefix="$CATALINA_HOME" \
 			--with-apr="$aprConfig" \
 			--with-java-home="$JAVA_HOME" \
-			--with-ssl=yes; \
-		make -j "$(nproc)"; \
+			--with-ssl \
+		; \
+		nproc="$(nproc)"; \
+		make -j "$nproc"; \
 		make install; \
 	); \
 	rm -rf "$nativeBuildDir"; \
@@ -106,8 +117,10 @@ RUN set -eux; \
 		| xargs -rt dpkg-query --search \
 		| cut -d: -f1 \
 		| sort -u \
+		| tee "$TOMCAT_NATIVE_LIBDIR/.dependencies.txt" \
 		| xargs -r apt-mark manual \
 	; \
+	\
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
