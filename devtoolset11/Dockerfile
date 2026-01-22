@@ -38,4 +38,5 @@ RUN yum install -y \
     git \
     wget \
     patch \
+    unzip bzip2 lzma patchelf perl-Pod-Markdown perl-IPC-Cmd cmake flex bison nasm perl autoconf automake \
     && yum clean all
