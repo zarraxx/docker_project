@@ -1,5 +1,5 @@
 # 使用 CentOS 7 作为基础镜像
-FROM centos:7
+FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:7
 
 
 # --- 系统配置和依赖安装 ---
