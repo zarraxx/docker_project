@@ -1,4 +1,4 @@
-FROM postgresql:18-bookworm
+FROM docker.io/library/postgresql:18-bookworm
 
 # Switch to the root user to perform installations
 USER root
