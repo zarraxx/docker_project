@@ -1,0 +1,47 @@
+FROM registry.cn-hangzhou.aliyuncs.com/zarra/devtoolset:11
+ARG CTNG_VERSION=1.28.0
+# --- 1. 激活 devtoolset-11 (环境变量持久化) ---
+ENV PATH=/opt/rh/devtoolset-11/root/usr/bin:$PATH \
+    LD_LIBRARY_PATH=/opt/rh/devtoolset-11/root/usr/lib64:/opt/rh/devtoolset-11/root/usr/lib:$LD_LIBRARY_PATH \
+    PKG_CONFIG_PATH=/opt/rh/devtoolset-11/root/usr/lib64/pkgconfig:$PKG_CONFIG_PATH \
+    MANPATH=/opt/rh/devtoolset-11/root/usr/share/man:$MANPATH
+
+
+ENV PATH=/opt/ctng/bin:$PATH
+
+
+RUN yum install -y \
+        autoconf \
+        automake \
+        bzip2 \
+        gperf \
+        help2man \
+        libtool \
+        ncurses-devel \
+        patch \
+        perl-Thread-Queue \
+        python36-devel \
+        rsync \
+        texinfo \
+        unzip \
+        wget \
+        which \
+        curl \
+        xz && \
+    yum clean all
+
+RUN mkdir -p /opt/ctng-src/ && \
+    curl -sL https://github.com/crosstool-ng/crosstool-ng/releases/download/crosstool-ng-${CTNG_VERSION}/crosstool-ng-${CTNG_VERSION}.tar.bz2 -o \
+     /opt/ctng-src/crosstool-ng-${CTNG_VERSION}.tar.bz2 && \
+    tar xf /opt/ctng-src/crosstool-ng-${CTNG_VERSION}.tar.bz2 -C /opt/ctng-src && \
+    cd /opt/ctng-src/crosstool-ng-${CTNG_VERSION} && \
+    ./bootstrap && \
+    ./configure --prefix=/opt/ctng && \
+    make && \
+    make install && \
+    cd / && \
+    rm -rf /opt/ctng-src
+
+
+
+CMD [ "/bin/bash" ]
