@@ -49,7 +49,7 @@ RUN mkdir -p /opt/ctng-src/ && \
 
 
 RUN  groupadd -g ${CTNG_GID} ctng && \
-    useradd -d /home/ctng -m -g ${CTNG_GID} -u ${CTNG_UID} -s /bin/bash ctng && \
+    useradd -d /home/ctng -m -g ${CTNG_GID} -u ${CTNG_UID} -s /bin/bash ctng
 
 WORKDIR /home/ctng/workspace
 # 切换到非 root 用户
