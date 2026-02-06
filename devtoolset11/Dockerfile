@@ -38,5 +38,8 @@ RUN yum install -y \
     git \
     wget \
     patch \
-    unzip bzip2 lzma perl perl-Data-Dumper perl-Pod-Markdown perl-IPC-Cmd perl-Thread-Queue flex bison nasm help2man which file pam-devel systemd-devel \
+    unzip bzip2 lzma flex bison nasm help2man which file \
+    perl perl-Data-Dumper perl-Pod-Markdown perl-IPC-Cmd perl-Thread-Queue perl-ExtUtils-Embed  \
+    pam-devel systemd-devel\
+    zlib-devel lz4-devel bzip2-devel xz-devel \
     && yum clean all
