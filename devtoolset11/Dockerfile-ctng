@@ -1,5 +1,8 @@
 FROM registry.cn-hangzhou.aliyuncs.com/zarra/devtoolset:11
 ARG CTNG_VERSION=1.28.0
+ARG CTNG_UID=1000
+ARG CTNG_GID=1000
+
 # --- 1. 激活 devtoolset-11 (环境变量持久化) ---
 ENV PATH=/opt/rh/devtoolset-11/root/usr/bin:$PATH \
     LD_LIBRARY_PATH=/opt/rh/devtoolset-11/root/usr/lib64:/opt/rh/devtoolset-11/root/usr/lib:$LD_LIBRARY_PATH \
@@ -43,5 +46,13 @@ RUN mkdir -p /opt/ctng-src/ && \
     rm -rf /opt/ctng-src
 
 
+
+
+RUN  groupadd -g ${CTNG_GID} ctng && \
+    useradd -d /home/ctng -m -g ${CTNG_GID} -u ${CTNG_UID} -s /bin/bash ctng && \
+
+WORKDIR /home/ctng/workspace
+# 切换到非 root 用户
+USER ctng
 
 CMD [ "/bin/bash" ]
