@@ -17,6 +17,7 @@ RUN set -e; \
         centos_base_src="http://mirror.centos.org/altarch"; \
     else \
         centos_base="https://mirrors.aliyun.com/centos-vault"; \
+        centos_base_src="http://mirror.centos.org"; \
             
     fi; \
     sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*; \
