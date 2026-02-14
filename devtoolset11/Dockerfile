@@ -1,5 +1,5 @@
 # 使用 CentOS 7 作为基础镜像
-FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:7
+FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:centos7.9.2009
 
 
 # --- 系统配置和依赖安装 ---
@@ -7,33 +7,46 @@ FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:7
 
 
 # ------------------[ EOL HOTFIX START ]------------------
-# 1. 切换 CentOS 官方仓库指向 vault.centos.org
-#    这是因为 CentOS 7 已 EOL，mirrorlist 不再工作
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
-    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=https://mirrors.aliyun.com/centos-vault|g' /etc/yum.repos.d/CentOS-*
+# 1. 根据架构切换 CentOS 7 仓库
+#    x86_64 -> centos-vault
+#    aarch64 -> centos-altarch
+RUN set -e; \
+    arch="$(uname -m)"; \
+    if [ "$arch" = "aarch64" ]; then \
+        centos_base="https://mirrors.aliyun.com/centos-altarch"; \
+        centos_base_src="http://mirror.centos.org/altarch"; \
+    else \
+        centos_base="https://mirrors.aliyun.com/centos-vault"; \
+            
+    fi; \
+    sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*; \
+    sed -i "s|#baseurl=${centos_base_src}|baseurl=${centos_base}|g" /etc/yum.repos.d/CentOS-*
 
 RUN yum install -y epel-release && \
     sed -i 's/metalink=/#metalink=/g' /etc/yum.repos.d/epel.repo && \
     sed -i 's|#baseurl=http://download.fedoraproject.org/pub/epel|baseurl=https://mirrors.aliyun.com/epel-archive|g' /etc/yum.repos.d/epel.repo
 
 
-# 4. 修复 SCL 仓库指向阿里云 Vault
-#    SCL 的仓库文件安装后，默认指向的是已失效的官方 mirror
-#    我们需要：
-#    a. 注释掉 mirrorlist
-#    b. 启用 baseurl
-#    c. 将域名替换为阿里云 Vault
-#    d. 将路径中的 /centos/7/ 替换为 /centos-vault/7.9.2009/ (关键路径修正)
-RUN yum install -y centos-release-scl && \
-    sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-SCLo-scl*.repo && \
-    sed -i 's|# baseurl=http://mirror.centos.org|baseurl=https://mirrors.aliyun.com|g' /etc/yum.repos.d/CentOS-SCLo-scl*.repo && \
-    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=https://mirrors.aliyun.com|g' /etc/yum.repos.d/CentOS-SCLo-scl*.repo
+# 4. 修复 SCL 仓库指向阿里云 Vault/AltArch
+RUN set -e; \
+    arch="$(uname -m)"; \
+    if [ "$arch" = "aarch64" ]; then \
+        scl_base="https://mirrors.aliyun.com/centos-altarch"; \
+        centos_base_src="http://mirror.centos.org/centos"; \
+    else \
+        scl_base="https://mirrors.aliyun.com"; \
+        centos_base_src="http://mirror.centos.org"; \
+    fi; \
+    yum install -y centos-release-scl; \
+    sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-SCLo-scl*.repo; \
+    sed -i "s|# baseurl=${centos_base_src}|baseurl=${scl_base}|g" /etc/yum.repos.d/CentOS-SCLo-scl*.repo; \
+    sed -i "s|#baseurl=${centos_base_src}|baseurl=${scl_base}|g" /etc/yum.repos.d/CentOS-SCLo-scl*.repo
 
 
 RUN yum install -y \
-    devtoolset-11-gcc \
-    devtoolset-11-gcc-c++ \
-    devtoolset-11-binutils \
+    devtoolset-10-gcc \
+    devtoolset-10-gcc-c++ \
+    devtoolset-10-binutils \
     make \
     git \
     wget \

@@ -4,7 +4,7 @@
 # 如果任何命令失败，脚本将立即退出
 set -e
 # 定义镜像名称，方便后续修改
-IMAGE_NAME="hlw-postgres:16-full"
+IMAGE_NAME="devtoolset:11"
 
 # --- 步骤 1: 清理悬空 (Orphan) 镜像 ---
 echo "--> STEP 1: Pruning dangling (orphan) images..."
@@ -28,12 +28,6 @@ echo # 打印一个空行
 
 # --- 步骤 3: 构建新镜像 ---
 echo "--> STEP 3: Building the new image: ${IMAGE_NAME}"
-# 执行构建命令，并将 UID/GID 传递给 Dockerfile
-#podman build \
-#    --build-arg CTNG_UID=$(id -u) \
-#    --build-arg CTNG_GID=$(id -g) \
-#    -t "${IMAGE_NAME}" .
-
 
 podman build -t "${IMAGE_NAME}" .
 
