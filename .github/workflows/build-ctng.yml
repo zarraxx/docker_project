@@ -1,4 +1,4 @@
-name: Build and Push Devtoolset to Aliyun
+name: Build and Push CTNG to Aliyun
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
       - "devtoolset"
     # 只有当 devtoolset11 目录下的文件或 Dockerfile 变化时才触发（可选，更节省资源）
     paths:
-      - "devtoolset11/Dockerfile"
-      - ".github/workflows/build-devtoolset.yml"
+      - "devtoolset11/Dockerfile-ctng"
+      - ".github/workflows/build-ctng.yml"
 
 jobs:
   build-and-push:
@@ -36,10 +36,10 @@ jobs:
         with:
           # 指定 Dockerfile 所在的目录上下文
           # 指定 Dockerfile 的路径
-          file: ./devtoolset11/Dockerfile
+          file: ./devtoolset11/Dockerfile-ctng
           # 开启多架构支持
           platforms: linux/amd64,linux/arm64
           # 只有在推送分支时执行推送操作
           push: true
           tags: |
-            registry.cn-hangzhou.aliyuncs.com/zarra/centos:devtoolset
+            registry.cn-hangzhou.aliyuncs.com/zarra/centos:ctng
