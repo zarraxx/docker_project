@@ -33,7 +33,7 @@ RUN \
 
 # (可选) 在这里添加你后续需要安装的软件包
 RUN apt-get update && apt-get install -y \
-    make \
+    make pkg-config \
     git \
     wget \
     patch \
