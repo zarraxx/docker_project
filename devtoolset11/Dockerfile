@@ -53,7 +53,7 @@ RUN yum install -y \
     wget \
     patch \
     unzip bzip2 lzma flex bison nasm help2man which file \
-    perl perl-Data-Dumper perl-Pod-Markdown perl-IPC-Cmd perl-Thread-Queue perl-ExtUtils-Embed  \
+    perl perl-Data-Dumper perl-Pod-Markdown perl-IPC-Cmd perl-Thread-Queue perl-ExtUtils-Embed perl-ExtUtils-Embed \
     pam-devel systemd-devel \
     zlib-devel lz4-devel bzip2-devel xz-devel \
     && yum clean all

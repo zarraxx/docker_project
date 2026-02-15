@@ -32,7 +32,16 @@ RUN \
    
 
 # (可选) 在这里添加你后续需要安装的软件包
-# RUN apt-get install -y your-package1 your-package2
+RUN apt-get update && apt-get install -y \
+    make \
+    git \
+    wget \
+    patch \
+    unzip bzip2 xz-utils flex bison nasm help2man debianutils file \
+    libpam0g-dev libsystemd-dev \
+    libpod-markdown-perl libperl-dev \
+    zlib1g-dev liblz4-dev libbz2-dev liblzma-dev
+
 
 # 设置默认命令，方便测试
 CMD ["bash"]
