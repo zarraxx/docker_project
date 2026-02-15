@@ -57,3 +57,8 @@ RUN yum install -y \
     pam-devel systemd-devel \
     zlib-devel lz4-devel bzip2-devel xz-devel \
     && yum clean all
+
+ENV PATH=/opt/rh/devtoolset-10/root/usr/bin:$PATH \
+    PKG_CONFIG_PATH=/opt/rh/devtoolset-10/root/usr/lib64/pkgconfig:$PKG_CONFIG_PATH \
+    MANPATH=/opt/rh/devtoolset-10/root/usr/share/man:$MANPATH
+
