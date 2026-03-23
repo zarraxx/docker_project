@@ -13,13 +13,13 @@ WORKDIR /home/ctng/workspace
 COPY --chown=ctng:ctng workspace .
 ENV CT_PREFIX=/opt/x-tools/host-${ARCH}
 WORKDIR /home/ctng/workspace/native/x86_64-centos7-linux-gnu
-RUN ct-ng build || cat build.log
+RUN ct-ng build 
 
 WORKDIR /home/ctng/workspace/native/aarch64-debian10-linux-gnu
-RUN ct-ng build || cat build.log
+RUN ct-ng build 
 
 WORKDIR /home/ctng/workspace/native/x86_64-w64-mingw32
-RUN ct-ng build || cat build.log
+RUN ct-ng build 
 
 RUN ls /opt/x-tools/host-${ARCH}
 
