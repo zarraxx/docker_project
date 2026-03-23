@@ -10,9 +10,10 @@ RUN mkdir -p "/opt/x-tools" && \
 USER ctng
 WORKDIR /home/ctng/workspace
 COPY --chown=ctng:ctng workspace .
-ENV CT_PREFIX_DIR=/opt/x-tools/host-$(arch)
+ENV CT_PREFIX=/opt/x-tools/host-$(arch)
 WORKDIR /home/ctng/workspace/native/x86_64-centos7-linux-gnu
 RUN ct-ng build || cat build.log
+RUN ls /opt/x-tools/host-$(arch)
 
 #WORKDIR /home/ctng/workspace/native/aarch64-debian10-linux-gnu
 #RUN CT_PREFIX_DIR=/opt/x-tools/host-$(arch) ct-ng build || cat build.log

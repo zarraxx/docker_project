@@ -30,7 +30,7 @@ echo # 打印一个空行
 # --- 步骤 3: 构建新镜像 ---
 echo "--> STEP 3: Building the new image: ${IMAGE_NAME}"
 
-podman build --ulimit nofile=4096:4096  -f Dockerfile-host-${ARCH} -t "${IMAGE_NAME}" .
+podman build --ulimit nofile=4096:4096  -f Dockerfile -t "${IMAGE_NAME}" .
 
 echo # 打印一个空行
 echo "--> BUILD COMPLETE! Image '${IMAGE_NAME}' is now ready to use."
