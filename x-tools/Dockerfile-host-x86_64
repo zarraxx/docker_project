@@ -1,0 +1,15 @@
+# ===== Stage 1: build x-tools =====
+FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:ctng AS builder
+RUN mkdir -p "/opt/x-tools" && \
+    chown -R ctng:ctng "/opt/x-tools" &&\
+    mkdir -p /home/ctng/src && \
+    chown -R ctng:ctng /home/ctng/src \
+
+WORKDIR /home/ctng/workspace
+COPY --chown=ctng:ctng workspace .
+RUN cd /home/ctng/workspace/host-x86_64/x86_64-centos7-linux-gnu && \
+    CT_PREFIX=/opt/x-tools/host-$(arch) /opt/ctng/bin/ct-ng build
+
+# ===== Stage 2: centos7 runtime =====
+FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:7-aliyun
+COPY --from=builder /opt/x-tools /opt/x-tools
