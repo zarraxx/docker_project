@@ -7,7 +7,8 @@ on:
       - "devtoolset"
     # 只有当 x-tools 目录下的文件或 Dockerfile 变化时才触发（可选，更节省资源）
     paths:
-      - "x-tools/**"
+      - "x-tools/workspace/**"
+      - "x-tools/Dockerfile"
       - ".github/workflows/build-xtools.yml"
 
 jobs:
