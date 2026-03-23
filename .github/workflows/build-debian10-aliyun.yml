@@ -8,7 +8,7 @@ on:
     # 只有当 debian10 目录下的文件或 Dockerfile 变化时才触发（可选，更节省资源）
     paths:
       - "debian10/Dockerfile-10-aliyun"
-      - ".github/workflows/build-debian-aliyun.yml"
+      - "build-debian10-aliyun.yml"
 
 jobs:
   build-and-push:

@@ -1,0 +1,19 @@
+FROM debian:wheezy
+ENV DEBIAN_FRONTEND=noninteractive
+RUN set -eux; \
+    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until; \
+    echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-unauth; \
+    \
+    echo "deb http://archive.debian.org/debian/ wheezy main contrib non-free" > /etc/apt/sources.list; \
+    echo "deb http://archive.debian.org/debian-security/ wheezy/updates main contrib non-free" >> /etc/apt/sources.list; \
+    \
+    apt-get update; \
+    apt-get install -y --force-yes --no-install-recommends ca-certificates curl wget; \
+    \
+    echo "deb http://mirrors.aliyun.com/debian-archive/debian/ wheezy main non-free contrib" > /etc/apt/sources.list; \
+    echo "deb http://mirrors.aliyun.com/debian-archive/debian-security wheezy/updates main" >> /etc/apt/sources.list; \
+    echo "deb http://mirrors.aliyun.com/debian-archive/debian/ wheezy-backports main non-free contrib" >> /etc/apt/sources.list; \
+    \
+    apt-get update; \
+    rm -rf /var/lib/apt/lists/*
+CMD ["bash"]
