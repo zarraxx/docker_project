@@ -7,7 +7,7 @@ on:
       - "devtoolset"
     # 只有当 x-tools 目录下的文件或 Dockerfile 变化时才触发（可选，更节省资源）
     paths:
-      - "x-tools/"
+      - "x-tools/**"
       - ".github/workflows/build-xtools.yml"
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
           docker build \
             --ulimit nofile=8192:8192 \
             -t ${IMAGE_NAME} \
-            -f Dockerfile ./x-tools
+            -f ./x-tools/Dockerfile ./x-tools
       - name: Push image
         run: |
           IMAGE_NAME=registry.cn-hangzhou.aliyuncs.com/zarra/centos:x-tools_x86_64
