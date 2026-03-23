@@ -1,0 +1,42 @@
+name: Build and Push XTools to Aliyun
+
+on:
+  push:
+    # 监听这两个分支的推送
+    branches:
+      - "devtoolset"
+    # 只有当 x-tools 目录下的文件或 Dockerfile 变化时才触发（可选，更节省资源）
+    paths:
+      - "x-tools/"
+      - ".github/workflows/build-xtools.yml"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Show runner arch
+        run: |
+          uname -a
+          arch
+      - name: Login to Aliyun Registry
+        run: |
+          echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login \
+            registry.cn-hangzhou.aliyuncs.com \
+            -u "${{ secrets.ALIYUN_USERNAME }}" \
+            --password-stdin
+      - name: Build image
+        run: |
+          IMAGE_NAME=registry.cn-hangzhou.aliyuncs.com/zarra/centos:x-tools_x86_64
+          docker build \
+            --ulimit nofile=8192:8192 \
+            -t ${IMAGE_NAME} \
+            -f Dockerfile x-tools
+      - name: Push image
+        run: |
+          IMAGE_NAME=registry.cn-hangzhou.aliyuncs.com/zarra/centos:x-tools_x86_64
+          docker push ${IMAGE_NAME}
+
+    
