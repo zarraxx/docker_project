@@ -18,7 +18,6 @@ RUN set -e; \
     else \
         centos_base="https://mirrors.aliyun.com/centos-vault"; \
         centos_base_src="http://mirror.centos.org"; \
-            
     fi; \
     sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*; \
     sed -i "s|#baseurl=${centos_base_src}|baseurl=${centos_base}|g" /etc/yum.repos.d/CentOS-*
