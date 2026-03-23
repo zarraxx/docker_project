@@ -33,7 +33,7 @@ jobs:
           docker build \
             --ulimit nofile=8192:8192 \
             -t ${IMAGE_NAME} \
-            -f Dockerfile x-tools
+            -f Dockerfile ./x-tools
       - name: Push image
         run: |
           IMAGE_NAME=registry.cn-hangzhou.aliyuncs.com/zarra/centos:x-tools_x86_64
