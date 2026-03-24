@@ -21,7 +21,7 @@ RUN ct-ng build
 WORKDIR /home/ctng/workspace/native/x86_64-w64-mingw32
 RUN ct-ng build 
 
-RUN ls /opt/x-tools/host-${ARCH}
+RUN ls /opt/x-tools/
 
 # ===== Stage 2: centos7 runtime =====
 
