@@ -10,4 +10,7 @@ RUN ls -la && chmod +x *.sh && ./build.sh
 # ===== Stage 2: centos7 runtime =====
 FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:7-aliyun
 COPY --from=builder /opt/x-tools /opt/x-tools
-RUN yum install -y  rh-python38
+RUN yum install -y  rh-python38 \
+git wget patch \
+unzip bzip2 lzma flex bison help2man which file \
+perl perl-Data-Dumper perl-Pod-Markdown perl-IPC-Cmd perl-Thread-Queue perl-ExtUtils-Embed perl-ExtUtils-Embed \
