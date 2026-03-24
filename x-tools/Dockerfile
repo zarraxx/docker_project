@@ -25,6 +25,6 @@ RUN ls /opt/x-tools/host-${ARCH}
 
 # ===== Stage 2: centos7 runtime =====
 
-FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:7-aliyun
+FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:x-tools-base
 COPY --from=builder /opt/x-tools /opt/x-tools
 #ENV PATH=/opt/x-tools/host-${ARCH}/x86_64-centos7-linux-gnu/bin:/opt/x-tools/host-${ARCH}/aarch64-debian10-linux-gnu/bin:/opt/x-tools/host-${ARCH}/x86_64-w64-mingw32/bin:$PATH
