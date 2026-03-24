@@ -11,7 +11,7 @@ RUN mkdir -p "/opt/x-tools" && \
 USER ctng
 WORKDIR /home/ctng/workspace
 COPY --chown=ctng:ctng workspace .
-ENV CT_PREFIX=/opt/x-tools
+ENV CT_PREFIX=/opt/x-tools/compiler
 WORKDIR /home/ctng/workspace/native/x86_64-centos7-linux-gnu
 RUN ct-ng build 
 

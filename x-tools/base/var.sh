@@ -17,7 +17,7 @@ ARCH=$(uname -m)
 
 
 export BUILD_DIR=/workspace/build
-export DEST_DIR=/opt/x-tools/
+export DEST_DIR=/opt/x-tools/utils
 export ARCHIVE_DIR=/workspace/archive
 
 mkdir -p ${BUILD_DIR}
