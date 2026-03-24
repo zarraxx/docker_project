@@ -6,6 +6,8 @@ export PATCHELF_VERSION=0.18.0
 export CMAKE_VERSION=3.25.0
 export LLVM_VERSION=21.1.8
 export GOOGLETEST_VERSION=1.11.0
+export MAVEN_VERSION=3.6.3
+
 
 ARCH=$(uname -m)
 
