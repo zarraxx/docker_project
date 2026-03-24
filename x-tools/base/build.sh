@@ -62,6 +62,18 @@ build_automake(){
     export PATH=$ORIG_PATH
 }
 
+build_nasm(){
+    download_file "nasm-$NASM_VERSION.tar.xz"
+    cd $BUILD_DIR
+    rm -rf nasm*
+    tar xvf $ARCHIVE_DIR/nasm-$NASM_VERSION.tar.xz
+    cd nasm-$NASM_VERSION
+    ./autogen.sh
+    ./configure --prefix=$DEST_DIR
+    make -j$(nproc)
+    make install
+}
+
 build_patchelf(){
     download_file "patchelf-$PATCHELF_VERSION.tar.bz2"
     cd $BUILD_DIR
@@ -129,11 +141,12 @@ download_maven(){
 build_libbacktrace
 build_libtool
 build_autoconf
-build_automake
-build_patchelf
-build_cmake
 
 export PATH=${DEST_DIR}/bin:$PATH
+build_automake
+build_patchelf
+build_nasm
+build_cmake
 #build_llvm
 build_google_test
 download_maven
