@@ -1,7 +1,7 @@
 # ===== Stage 1: builder =====
 FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:devtoolset AS builder
 
-RUN mkdir -p "/opt/x-tools/base"  && mkdir -p "/workspace"
+RUN mkdir -p "/opt/x-tools/"  && mkdir -p "/workspace"
 
 COPY  base /workspace
 WORKDIR /workspace
@@ -10,3 +10,4 @@ RUN ls -la && chmod +x *.sh && ./build.sh
 # ===== Stage 2: centos7 runtime =====
 FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:7-aliyun
 COPY --from=builder /opt/x-tools /opt/x-tools
+RUN yum install -y  rh-python38

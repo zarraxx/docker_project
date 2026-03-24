@@ -86,6 +86,30 @@ build_patchelf(){
     make install
 }
 
+build_make(){
+    download_file "make-$MAKE_VERSION.tar.gz"
+    cd $BUILD_DIR
+    rm -rf make*
+    tar xvf $ARCHIVE_DIR/make-$MAKE_VERSION.tar.gz
+    cd make-$MAKE_VERSION
+
+    ./configure --prefix=${DEST_DIR}
+    make -j$(nproc)
+    make install
+}
+
+build_ninja(){
+    download_file "ninja-$NINJA_VERSION.tar.gz"
+    cd $BUILD_DIR
+    rm -rf ninja*
+    tar xvf $ARCHIVE_DIR/ninja-$NINJA_VERSION.tar.gz
+    cd ninja-$NINJA_VERSION
+
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${DEST_DIR} .
+    make -j$(nproc)
+    make install
+}
+
 build_cmake(){
     download_file "cmake-$CMAKE_VERSION.tar.gz"
     cd $BUILD_DIR
@@ -129,6 +153,17 @@ build_google_test(){
     make install
 }
 
+build_meson(){
+    download_file "meson-$MESON_VERSION.tar.gz"
+    cd $BUILD_DIR
+    rm -rf meson*
+    tar xvf $ARCHIVE_DIR/meson-$MESON_VERSION.tar.gz
+    cd meson-$MESON_VERSION
+
+    ./packaging/create_zipapp.py --outfile ${DEST_DIR}/bin/meson --interpreter '/usr/bin/env python3'
+    #python3 setup.py install --prefix=${DEST_DIR}
+}
+
 download_maven(){
     download_file "apache-maven-$MAVEN_VERSION-bin.tar.gz"
     cd $BUILD_DIR
@@ -144,9 +179,12 @@ build_autoconf
 
 export PATH=${DEST_DIR}/bin:$PATH
 build_automake
+build_make
 build_patchelf
 build_nasm
 build_cmake
+build_ninja
 #build_llvm
 build_google_test
 download_maven
+build_meson

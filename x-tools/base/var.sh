@@ -8,13 +8,16 @@ export LLVM_VERSION=21.1.8
 export GOOGLETEST_VERSION=1.11.0
 export NASM_VERSION=2.16.03
 export MAVEN_VERSION=3.6.3
+export NINJA_VERSION=1.13.2
+export MAKE_VERSION=4.3
+export MESON_VERSION=1.10.2
 
 
 ARCH=$(uname -m)
 
 
 export BUILD_DIR=/workspace/build
-export DEST_DIR=/opt/x-tools/base
+export DEST_DIR=/opt/x-tools/
 export ARCHIVE_DIR=/workspace/archive
 
 mkdir -p ${BUILD_DIR}
