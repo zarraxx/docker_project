@@ -1,4 +1,4 @@
-name: Build and Push XTools to Aliyun
+name: Build and Push XTools base to Aliyun
 
 on:
   push:
