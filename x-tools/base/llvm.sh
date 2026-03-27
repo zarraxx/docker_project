@@ -64,5 +64,5 @@ build_llvm(){
 
 
 
-export LLVM_DEST_DIR=/opt/x-tools/compilers/llvm
+export LLVM_DEST_DIR=/opt/x-tools/compilers/llvm-${LLVM_VERSION}
 build_llvm
