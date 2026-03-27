@@ -1,6 +1,7 @@
 name: Build LLVM to Aliyun
 
 on:
+  workflow_dispatch:
   push:
     # 监听这两个分支的推送
     branches:
@@ -9,7 +10,7 @@ on:
     #   - "x-tools/base/**"
     #   - "x-tools/Dockerfile-llvm"
       - ".github/workflows/build-xtools-llvm.yml"
-  workflow_dispatch:
+  
 
 jobs:
 
