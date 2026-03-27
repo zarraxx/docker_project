@@ -35,6 +35,7 @@ build_llvm(){
       -DCMAKE_INSTALL_PREFIX=${LLVM_DEST_DIR} \
       \
       -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;lld" \
+      -DCLANG_DEFAULT_LINKER="lld" \
       \
       -DLLVM_TARGETS_TO_BUILD="X86;AArch64" \
       \
