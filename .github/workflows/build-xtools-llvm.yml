@@ -2,8 +2,13 @@ name: Build and Push LLVM to Aliyun
 
 on:
   push:
-    tags:
-      - 'v*'
+    # 监听这两个分支的推送
+    branches:
+      - "devtoolset"
+    paths:
+      - "x-tools/base/**"
+      - "x-tools/Dockerfile-llvm"
+      - ".github/workflows/build-xtools-llvm.yml"
   workflow_dispatch:
 
 jobs:
