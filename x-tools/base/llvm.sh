@@ -3,12 +3,12 @@
 set -e
 ROOT=$(cd `dirname $0` && pwd)
 yum install -y \
-    devtoolset-10-gcc \
-    devtoolset-10-gcc-c++ \
-    devtoolset-10-binutils 
+    devtoolset-11-gcc \
+    devtoolset-11-gcc-c++ \
+    devtoolset-11-binutils 
 
 source /opt/rh/rh-python38/enable
-source /opt/rh/devtoolset-10/enable
+source /opt/rh/devtoolset-11/enable
 
 source $ROOT/var.sh
 
