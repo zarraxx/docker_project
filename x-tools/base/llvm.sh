@@ -34,7 +34,7 @@ build_llvm(){
       -DPython3_EXECUTABLE=$PYTHON_EXE \
       -DCMAKE_INSTALL_PREFIX=${LLVM_DEST_DIR} \
       \
-      -DLLVM_ENABLE_PROJECTS="clang;compiler-rt" \
+      -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;lld" \
       \
       -DLLVM_TARGETS_TO_BUILD="X86;AArch64" \
       \
