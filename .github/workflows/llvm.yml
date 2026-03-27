@@ -1,4 +1,4 @@
-name: Build LLVM clang to Aliyun
+name: Build clang to Aliyun
 
 on:
   workflow_dispatch:
