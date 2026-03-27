@@ -4,13 +4,12 @@ on:
   workflow_dispatch:
     
   push:
-    # 监听这两个分支的推送
     branches:
       - "devtoolset"
     paths:
     #   - "x-tools/base/**"
     #   - "x-tools/Dockerfile-llvm"
-      - ".github/workflows/build-xtools-llvm.yml"
+      - ".github/workflows/llvm.yml"
   
 
 jobs:
