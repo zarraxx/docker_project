@@ -1,15 +1,21 @@
 name: Build and Push XTools to Aliyun
 
+# on:
+#   push:
+#     # 监听这两个分支的推送
+#     branches:
+#       - "devtoolset"
+#     # 只有当 x-tools 目录下的文件或 Dockerfile 变化时才触发（可选，更节省资源）
+#     paths:
+#       - "x-tools/workspace/**"
+#       - "x-tools/Dockerfile"
+#       - ".github/workflows/build-xtools.yml"
+
 on:
   push:
-    # 监听这两个分支的推送
-    branches:
-      - "devtoolset"
-    # 只有当 x-tools 目录下的文件或 Dockerfile 变化时才触发（可选，更节省资源）
-    paths:
-      - "x-tools/workspace/**"
-      - "x-tools/Dockerfile"
-      - ".github/workflows/build-xtools.yml"
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   build-and-push:
