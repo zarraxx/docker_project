@@ -50,7 +50,7 @@ build_llvm(){
       -DLLVM_ENABLE_ZLIB=ON \
       -DLLVM_ENABLE_LIBXML2=OFF ../llvm
 
-    ninja -v -j$(nproc) 
+    ninja -j$(nproc) 
     ninja install
 
 
