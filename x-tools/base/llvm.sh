@@ -51,6 +51,7 @@ build_llvm(){
       -DLLVM_ENABLE_TERMINFO=OFF \
       -DLLVM_ENABLE_ZLIB=ON \
       -DLLVM_ENABLE_LIBXML2=OFF \
+      -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc" \
       -DCMAKE_INSTALL_RPATH="\$ORIGIN;\$ORIGIN/../lib" \
       -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
        ../llvm
