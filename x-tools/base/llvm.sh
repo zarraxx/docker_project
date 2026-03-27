@@ -29,7 +29,7 @@ build_llvm(){
     PYTHON_EXE=$(which python3)
     cd llvm-project-$LLVM_VERSION.src
     rm -rf _build && mkdir _build && cd _build
-    cmake -G "Unix Makefiles" \
+    cmake -G Ninja \
      -DCMAKE_BUILD_TYPE=Release \
       -DPython3_EXECUTABLE=$PYTHON_EXE \
       -DCMAKE_INSTALL_PREFIX=${LLVM_DEST_DIR} \
@@ -50,8 +50,8 @@ build_llvm(){
       -DLLVM_ENABLE_ZLIB=ON \
       -DLLVM_ENABLE_LIBXML2=OFF ../llvm
 
-     make -j$(nproc)
-     make install
+    ninja -v -j$(nproc) 
+    ninja install
 
 
 }
