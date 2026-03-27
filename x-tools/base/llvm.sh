@@ -25,7 +25,7 @@ build_llvm(){
     download_file "llvm-project-$LLVM_VERSION.src.tar.xz"
     cd $BUILD_DIR
     rm -rf llvm*
-    tar xvf $ARCHIVE_DIR/llvm-project-$LLVM_VERSION.src.tar.xz
+    tar xf $ARCHIVE_DIR/llvm-project-$LLVM_VERSION.src.tar.xz
     PYTHON_EXE=$(which python3)
     cd llvm-project-$LLVM_VERSION.src
     rm -rf _build && mkdir _build && cd _build
