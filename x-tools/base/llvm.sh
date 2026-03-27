@@ -50,7 +50,10 @@ build_llvm(){
       -DLLVM_INCLUDE_EXAMPLES=OFF \
       -DLLVM_ENABLE_TERMINFO=OFF \
       -DLLVM_ENABLE_ZLIB=ON \
-      -DLLVM_ENABLE_LIBXML2=OFF ../llvm
+      -DLLVM_ENABLE_LIBXML2=OFF \
+      -DCMAKE_INSTALL_RPATH="\$ORIGIN;\$ORIGIN/../lib" \
+      -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+       ../llvm
 
     ninja -j$(nproc) 
     ninja install
