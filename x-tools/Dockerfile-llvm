@@ -1,0 +1,13 @@
+# ===== Stage 1: builder =====
+FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:x-tools-base AS builder
+
+RUN mkdir -p "/opt/x-tools/"  && mkdir -p "/workspace"
+
+COPY  base /workspace
+WORKDIR /workspace
+RUN ls -la && chmod +x *.sh && ./llvm.sh
+
+
+# ===== Stage 2: centos7 runtime =====
+FROM registry.cn-hangzhou.aliyuncs.com/zarra/centos:x-tools-base
+COPY --from=builder /opt/x-tools/compilers /opt/x-tools/compilers

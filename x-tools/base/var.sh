@@ -20,11 +20,6 @@ export BUILD_DIR=/workspace/build
 export DEST_DIR=/opt/x-tools/utils
 export ARCHIVE_DIR=/workspace/archive
 
-mkdir -p ${BUILD_DIR}
-mkdir -p ${DEST_DIR}
-mkdir -p ${ARCHIVE_DIR}
-
-
 # 下载文件函数
 # 用法: download_file <filename>
 # 示例: download_file "openssl-3.1.8.tar.gz"

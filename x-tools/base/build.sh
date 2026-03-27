@@ -8,6 +8,10 @@ source /opt/rh/devtoolset-10/enable
 
 source $ROOT/var.sh
 
+mkdir -p ${BUILD_DIR}
+mkdir -p ${DEST_DIR}
+mkdir -p ${ARCHIVE_DIR}
+
 
 build_libbacktrace(){
     download_file "libbacktrace.zip"
@@ -122,25 +126,7 @@ build_cmake(){
     make install
 }
 
-build_llvm(){
-    download_file "llvm-project-$LLVM_VERSION.src.tar.xz"
-    cd $BUILD_DIR
-    rm -rf llvm*
-    tar xvf $ARCHIVE_DIR/llvm-project-$LLVM_VERSION.src.tar.xz
-    PYTHON_EXE=$(which python3)
-    cd llvm-project-$LLVM_VERSION.src
-    mkdir _build && cd _build
-    cmake -G "Unix Makefiles" \
-     -DPython3_EXECUTABLE=$PYTHON_EXE \
-      -DLLVM_ENABLE_PROJECTS="clang" \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DLLVM_TARGETS_TO_BUILD="X86;AArch64" \
-      -DBUILD_SHARED_LIBS=OFF \
-      -DLLVM_ENABLE_RTTI=ON \
-      -DCMAKE_INSTALL_PREFIX=${DEST_DIR} ../llvm
-    make -j4
-    make install
-}
+
 build_google_test(){
     download_file "googletest-release-$GOOGLETEST_VERSION.zip"
     cd $BUILD_DIR
@@ -184,7 +170,6 @@ build_patchelf
 build_nasm
 build_cmake
 build_ninja
-#build_llvm
 build_google_test
 download_maven
 build_meson
